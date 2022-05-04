@@ -60,7 +60,7 @@ exports.modifySauce = (req, res, next) => {
       }
 
       if (sauce.userId !== req.auth.userId) {
-        res.status(401).json({ error: "User Unauthorized !" });
+        res.status(403).json({ error: "Unauthorized Request!" });
       }
 
       const sauceModified = req.file
@@ -98,7 +98,7 @@ exports.deleteSauce = (req, res, next) => {
       }
 
       if (sauce.userId !== req.auth.userId) {
-        res.status(401).json({ error: "User Unauthorized !" });
+        res.status(403).json({ error: "Unauthorized Request!" });
       }
 
       const filename = sauce.imageUrl.split("/images/")[1];
