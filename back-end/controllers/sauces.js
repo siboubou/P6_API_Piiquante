@@ -56,11 +56,11 @@ exports.modifySauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (!sauce) {
-        res.status(404).json({ error: "This Sauce does not exist" });
+        return res.status(404).json({ error: "This Sauce does not exist" });
       }
 
       if (sauce.userId !== req.auth.userId) {
-        res.status(403).json({ error: "Unauthorized Request!" });
+        return res.status(403).json({ error: "Unauthorized Request!" });
       }
 
       const sauceModified = req.file
@@ -94,11 +94,11 @@ exports.deleteSauce = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => {
       if (!sauce) {
-        res.status(404).json({ error: "This Sauce does not exist" });
+        return res.status(404).json({ error: "This Sauce does not exist" });
       }
 
       if (sauce.userId !== req.auth.userId) {
-        res.status(403).json({ error: "Unauthorized Request!" });
+        return res.status(403).json({ error: "Unauthorized Request!" });
       }
 
       const filename = sauce.imageUrl.split("/images/")[1];
