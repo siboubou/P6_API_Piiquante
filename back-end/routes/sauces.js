@@ -1,17 +1,21 @@
-const express = require('express');
+/* LOGIQUE DE ROUTE DES SAUCES */
+
+//IMPORTS
+const express = require("express");
+const saucesCtrl = require("../controllers/sauces");
+const multer = require("../middlewares/multer-config");
+const auth = require("../middlewares/auth");
+
+//Création du routeur
 const router = express.Router();
 
-const saucesCtrl = require('../controllers/sauces');
+//Middlewares
+router.get("/", auth, saucesCtrl.getAllSauces);
+router.post("/", auth, multer, saucesCtrl.createSauce);
+router.get("/:id", auth, saucesCtrl.getOneSauce);
+router.put("/:id", auth, multer, saucesCtrl.modifySauce);
+router.delete("/:id", auth, saucesCtrl.deleteSauce);
+router.post("/:id/like", auth, saucesCtrl.likingSauce);
 
-const multer = require ('../middlewares/multer-config');
-const auth = require('../middlewares/auth')
-
-router.get('/', auth, saucesCtrl.getAllSauces);
-router.post('/', auth, multer, saucesCtrl.createSauce);
-router.get('/:id', auth, saucesCtrl.getOneSauce);
-router.put('/:id', auth, multer, saucesCtrl.modifySauce);
-router.delete('/:id', auth, saucesCtrl.deleteSauce);
-router.post('/:id', saucesCtrl.likingSauce)
-
-
+//EXPORT
 module.exports = router;
