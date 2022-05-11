@@ -23,6 +23,6 @@ module.exports = (req, res, next) => {
       next();
     }
   } catch (error) {
-    res.status(401).json({ error: error | "request unauthorized" });
+    res.status(401).json({ error: error | "Request non authenticated" });
   }
 };

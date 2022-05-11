@@ -19,7 +19,7 @@ const normalizePort = (val) => {
 // Port par défaut
 const port = normalizePort(process.env.PORT);
 
-//Quel port notre app doit être utilisé
+//Quel port notre app doit utiliser
 app.set("port", port);
 
 //Gestion des erreurs

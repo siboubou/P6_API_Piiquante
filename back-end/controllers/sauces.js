@@ -4,16 +4,15 @@
 const Sauce = require("../models/sauce");
 const fs = require("fs"); // Donne accès au système de fichiers
 
-/**RÉCUPÉRATION des sauces
- */
+
+/* ------- RÉCUPÉRATION des sauces ------- */
 exports.getAllSauces = (req, res, next) => {
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
-    .catch((error) => res.status(400).json({ error }));
+    .catch((error) => res.status(400).json({ error}));
 };
 
-/** CRÉATION d'une sauce
- */
+/* ------- CRÉATION d'une sauce ------- */
 exports.createSauce = (req, res, next) => {
   const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
@@ -35,9 +34,9 @@ exports.createSauce = (req, res, next) => {
     .catch((error) => res.status(400).json({ error }));
 };
 
-/** RÉCUPÉRATION d'une sauce
- */
+/* ------- RÉCUPÉRATION d'une sauce ------- */
 exports.getOneSauce = (req, res, next) => {
+  
   Sauce.findOne({ _id: req.params.id })
     .then((sauce) => res.status(200).json(sauce))
     .catch((error) =>
@@ -45,7 +44,7 @@ exports.getOneSauce = (req, res, next) => {
     );
 };
 
-/** MODIFICATION d'une sauce
+/* ------- MODIFICATION d'une sauce -------
  * Vérifie que l'utilisateur qui a créé la sauce et le même que celui authentifié
  * Vérifie s'il y une image dans la nouvelle requête (image modifiée ou pas)
  ** Si oui, on récupère un form-data avec deux clés (sauce et image)
@@ -85,7 +84,7 @@ exports.modifySauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-/** SUPRESSION d'une sauce
+/* ------- SUPRESSION d'une sauce -------
  * Vérifie que l'utilisateur qui a créé la sauce et le même que celui authentifié
  * Supprime le fichier image de notre serveur
  * Supprime la sauce de la base de données
@@ -113,8 +112,7 @@ exports.deleteSauce = (req, res, next) => {
     .catch((error) => res.status(500).json({ error }));
 };
 
-/** GESTION DU SYSTÈME DE LIKES
- */
+/* ------- GESTION DU SYSTÈME DE LIKES ------- */
 exports.likingSauce = (req, res, next) => {
   let like = req.body.like;
   let userId = req.body.userId;

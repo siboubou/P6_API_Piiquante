@@ -66,7 +66,7 @@ exports.login = (req, res, next) => {
           res.status(200).json({
             userId: user._id,
             token: jwToken.sign({ userId: user._id }, process.env.Token_Key, {
-              expiresIn: "24h",
+              expiresIn: "3h",
             }),
           });
         })
