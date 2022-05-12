@@ -2,11 +2,14 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-/** EXPORT middleware
- * Cible headers athorization
- * * split et select [1]
- * * * [0] = Bearer et [1] = Token
+/** -----  middleware d'AUTHENTIFICATION -----
+ * Cible headers authorization
+ * [0] = Bearer et [1] = Token
+ * récupère le token : Split et select [1]
+ * Décode le token @package jwt @method verify
  * Cible userId du token décodé
+ * Ajoute l'objet auth à l'objet de requête
+ * Authentification réussie si userId de la requête est le même que celui du token
  */
 
 module.exports = (req, res, next) => {

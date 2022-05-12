@@ -11,11 +11,15 @@ const MYME_TYPES = {
   "image/png": "png",
 };
 
-/* Création d'un objet de configuration multer
- * Fixe le dossier de destination
- * Fixe le nom du fichier
+/** ------ Création d'un objet de configuration multer -----
+ * @constant fileStorageEngine
+ * Fixe le dossier de destination "image"
+ * Fixe le nom du fichier @var filename
+ ** Utilise la @constant MYME_TYPES pour résoudre l'extension de fichier
  ** Si le nom du fichier envoyé contient des espaces ils sont remplacés par underscore
+ ** Ajoute un timestamp @method date.now
  */
+
 const fileStorageEngine = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "./images");
@@ -30,6 +34,6 @@ const fileStorageEngine = multer.diskStorage({
 const upload = multer({ storage: fileStorageEngine });
 
 // EXPORT
-//Un unique fichier envoyé
+// Un unique fichier envoyé
 //'image' = nom du champ que multer doit chercher dans la requête entrante
 module.exports = upload.single("image");

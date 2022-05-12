@@ -4,7 +4,7 @@
 const express = require('express');
 const userCtrl = require('../controllers/user');
 const validPassword = require('../middlewares/password-validation')
-const validUser =require ('../models/userJOI')
+
 //Création du routeur
 const router = express.Router();
 

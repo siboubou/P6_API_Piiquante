@@ -7,7 +7,6 @@ const passwordValidator = require("password-validator");
 // Schema de mot-de-passe autorisé
 const schemaPassword = new passwordValidator();
 
-
 schemaPassword
   .is().max(100, "Maximum lenght 100 ")
   .is().min(8, "Minimum lenght 8")
@@ -15,22 +14,16 @@ schemaPassword
   .has().lowercase(1, "At least One Lowercase")
   .has().digits(2, "At least Two numbers")
   .has().not().spaces()
-  //.has().not().symbols()
-  .not(/['$<>{}].*/, "No vulnerable characters")
+  .not(/[='$<>{}].*/, "No vulnerable characters") //contre injections
 
-//Middleware de Vérification du mot-de-passe
+/** ---- Middleware de Vérification du mot-de-passe
+ * @method validate vérifie que @param req.body.password remplisse les critères de @constant schemaPassword
+ */
 module.exports = (req, res, next) => {
   if (schemaPassword.validate(req.body.password)) {
     next();
   } else {
-    console.log(schemaPassword.validate(
-      req.body.password,
-      { details: true }
-    ))
-    console.log(schemaPassword.validate(
-      req.body.password,
-      { list: true }
-    ))
+
     return res
       .status(400)
       .json({

@@ -5,16 +5,19 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt"); //hash + salt le mot-de-passe
 const jwToken = require("jsonwebtoken"); //crée token de session
 const crypto = require("crypto-js"); //crypte le mail
+
 require("dotenv").config();
 
 //CONSTANTES
 const saltRounds = 10;
 
-/** INSCRIPTION
- * Utilisateur enregistré dans la base de donées avec un
- * Email crypté
- * Un mot-de-passe hashé
+/** ------- INSCRIPTION -------
+ * On crée une  nouvelle instance @constant user de la table users avec :
+ * On crypte @param req.body.email avec crypto SHA3
+ * On hash & salt @param req.body.password avec Bcrypt
+ * On l'enregistre dans la base de données @method save
  */
+
 exports.signup = (req, res, next) => {
   const emailCrypted = crypto
     .HmacSHA3(req.body.email, `${process.env.Crypto_Key}`, {
@@ -39,9 +42,12 @@ exports.signup = (req, res, next) => {
     .catch((error) => res.status(500).json({ error: error }));
 };
 
-/** CONNEXION
- * On crypte l'email pour vérifier que ce crypte existe dans la base de données
+/** ---------- CONNEXION --------
+ * On crypte @param req.body.email
+ * On cherche dans la base de données si ce mail crypté existe avec @method findOne
  * On compare le mot de passe hashé de l'utilisateur trouvé avec le mot-de-passe de la requête
+ * @method compare @returns boolean
+ * if true, un token de session est généré avec jwtoken
  */
 exports.login = (req, res, next) => {
   const emailCrypted = crypto
@@ -70,7 +76,7 @@ exports.login = (req, res, next) => {
             }),
           });
         })
-        .catch((error) =>
+        .catch(() =>
           res.status(500).json({ error: "PBM after bcryptCompare" })
         );
     })
