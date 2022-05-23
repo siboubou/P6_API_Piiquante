@@ -70,7 +70,7 @@ exports.modifySauce = (req, res, next) => {
       }
 
       if (sauce.userId !== req.auth.userId) {
-        return res.status(403).json({ error: "Unauthorized Request!" });
+        return res.status(403).json({ error: "This User can't modify this sauce" });
       }
 
       const sauceModified = req.file
@@ -86,7 +86,8 @@ exports.modifySauce = (req, res, next) => {
 
       Sauce.updateOne(
         { _id: req.params.id },
-        { ...sauceModified, _id: req.params.id }
+        { ...sauceModified, _id: req.params.id },
+        {runValidators : true}
       )
 
         .then(() => res.status(201).json({ message: " Sauce modified !" }))
@@ -109,7 +110,7 @@ exports.deleteSauce = (req, res, next) => {
       }
 
       if (sauce.userId !== req.auth.userId) {
-        return res.status(403).json({ error: "Unauthorized Request!" });
+        return res.status(403).json({ error: "This user is not allowed to delete this sauce!" });
       }
 
       const filename = sauce.imageUrl.split("/images/")[1];
