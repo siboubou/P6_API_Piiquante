@@ -1,6 +1,6 @@
 .DS_Store
 **.DS_Store
-/back-end/images/*
+back-end/images/**
 node_modules/
 /back-end/models/userJOI.js
 .env
