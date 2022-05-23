@@ -4,7 +4,7 @@
 const Sauce = require("../models/sauce");
 const fs = require("fs"); // Donne accès au système de fichiers
 
-/** ------- RÉCUPÉRATION des sauces -------
+/** -------- RÉCUPÉRATION des sauces -------
  * @method find
  */
 exports.getAllSauces = (req, res, next) => {
