@@ -30,6 +30,9 @@ exports.createSauce = (req, res, next) => {
     imageUrl: `${req.protocol}://${req.get("host")}/images/${
       req.file.filename
     }`,
+    previousImageUrl : `${req.protocol}://${req.get("host")}/images/${
+      req.file.filename
+    }`,
     likes: 0,
     dislikes: 0,
     usersLiked: [],
@@ -56,7 +59,7 @@ exports.getOneSauce = (req, res, next) => {
 /**  ------- MODIFICATION d'une sauce -------
  * @method findOne vérifie que la sauce à modifier existe
  * On vérifie que l'utilisateur qui a créé la sauce est le même que celui authentifié
- * On vérifie s'il y une image dans la nouvelle requête
+ * On vérifie s'il y a une image dans la nouvelle requête
  ** Si oui, on récupère un form-data avec deux clés (sauce et image)
  ** donc on parse req.body.sauce et on y ajoute le champs imageUrl en générant la nouvelle image
  ** Si non, on recupère le corps de la requête tel quel
@@ -72,27 +75,42 @@ exports.modifySauce = (req, res, next) => {
       if (sauce.userId !== req.auth.userId) {
         return res.status(403).json({ error: "This User can't modify this sauce" });
       }
-
       const sauceModified = req.file
         ? {
             ...JSON.parse(req.body.sauce),
             imageUrl: `${req.protocol}://${req.get("host")}/images/${
               req.file.filename
             }`,
+            previousImageUrl: `${req.protocol}://${req.get("host")}/images/${
+              req.file.filename
+            }` 
           }
         : {
             ...req.body,
           };
 
-      Sauce.updateOne(
-        { _id: req.params.id },
-        { ...sauceModified, _id: req.params.id },
-        {runValidators : true}
-      )
+// Si l'image est modifié on supprime l'ancienne image du dossier image
+        const previousimg = sauce.previousImageUrl.split("/images/")[1];
 
-        .then(() => res.status(201).json({ message: " Sauce modified !" }))
-        .catch((error) => res.status(400).json({ error }));
-    })
+        if (req.file){
+          fs.unlink(`images/${previousimg}`, (err => {
+            if (err) console.log(err);
+            else {
+              console.log("previous img deleted");
+            }
+          }));
+        }
+         
+          Sauce.updateOne(
+            { _id: req.params.id },
+            { ...sauceModified, _id: req.params.id },
+            {runValidators : true}
+          )
+    
+            .then(() => res.status(201).json({ message: " Sauce modified !" }))
+            .catch((error) => res.status(400).json({ error }));
+      })    
+     
     .catch((error) => res.status(500).json({ error }));
 };
 

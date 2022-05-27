@@ -37,6 +37,7 @@ const sauceModel = mongoose.Schema({
     },
      required: true },
   imageUrl: { type: String, required: true },
+  previousImageUrl: { type: String, required: true },
   heat: { type: Number, required: true },
   likes: { type: Number },
   dislikes: { type: Number },
