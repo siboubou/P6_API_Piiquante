@@ -75,6 +75,7 @@ exports.modifySauce = (req, res, next) => {
       if (sauce.userId !== req.auth.userId) {
         return res.status(403).json({ error: "This User can't modify this sauce" });
       }
+
       const sauceModified = req.file
         ? {
             ...JSON.parse(req.body.sauce),
@@ -89,7 +90,7 @@ exports.modifySauce = (req, res, next) => {
             ...req.body,
           };
 
-// Si l'image est modifié on supprime l'ancienne image du dossier image
+// Si l'image est modifié on supprime l'anncienne
         const previousimg = sauce.previousImageUrl.split("/images/")[1];
 
         if (req.file){
@@ -99,8 +100,8 @@ exports.modifySauce = (req, res, next) => {
               console.log("previous img deleted");
             }
           }));
-        }
-         
+        } 
+        
           Sauce.updateOne(
             { _id: req.params.id },
             { ...sauceModified, _id: req.params.id },
@@ -109,6 +110,9 @@ exports.modifySauce = (req, res, next) => {
     
             .then(() => res.status(201).json({ message: " Sauce modified !" }))
             .catch((error) => res.status(400).json({ error }));
+        
+         
+        
       })    
      
     .catch((error) => res.status(500).json({ error }));

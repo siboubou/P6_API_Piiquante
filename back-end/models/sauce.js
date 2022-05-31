@@ -9,7 +9,7 @@ const sauceModel = mongoose.Schema({
     type: String,
     validate: {
       validator: function (v) {
-        return /^[\w]+$/.test(v);
+        return /^[\w ]+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid Sauce name!  Only alphanumeric characters authorized`,
     },
@@ -17,21 +17,21 @@ const sauceModel = mongoose.Schema({
   },
   manufacturer: { type: String,  validate: {
       validator: function (v) {
-        return /^[\w]+$/.test(v);
+        return /^[\w ]+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid Sauce Manufacturer! Only alphanumeric characters authorized`,
     },
      required: true },
   description: { type: String,  validate: {
       validator: function (v) {
-        return /^[\w\.Ççé!? ]+$/.test(v);
+        return /^[\w\.Ççéû,!? ]+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid Sauce description!`,
     },
      required: true },
   mainPepper: { type: String,  validate: {
       validator: function (v) {
-        return /^[\w]+$/.test(v);
+        return /^[\w ]+$/.test(v);
       },
       message: (props) => `${props.value} is not a valid Sauce mainPepper! Only alphanumeric characters authorized`,
     },
