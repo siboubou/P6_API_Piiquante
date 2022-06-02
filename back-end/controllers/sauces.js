@@ -70,11 +70,11 @@ exports.modifySauce = (req, res, next) => {
     .then((sauce) => {
       if (!sauce) {
         return res.status(404).json({ error: "This Sauce does not exist" });
-      }
+      };
 
       if (sauce.userId !== req.auth.userId) {
         return res.status(403).json({ error: "This User can't modify this sauce" });
-      }
+      };
 
       const sauceModified = req.file
         ? {
@@ -92,7 +92,6 @@ exports.modifySauce = (req, res, next) => {
 
 // Si l'image est modifié on supprime l'anncienne
         const previousimg = sauce.previousImageUrl.split("/images/")[1];
-
         if (req.file){
           fs.unlink(`images/${previousimg}`, (err => {
             if (err) console.log(err);

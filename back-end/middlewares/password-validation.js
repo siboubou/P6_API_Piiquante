@@ -8,7 +8,6 @@ const passwordValidator = require("password-validator");
 const schemaPassword = new passwordValidator();
 
 schemaPassword
-  .is().max(100, "Maximum lenght 100 ")
   .is().min(8, "Minimum lenght 8")
   .has().uppercase(1, "At least One Uppercase")
   .has().lowercase(1, "At least One Lowercase")
